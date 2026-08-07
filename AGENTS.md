@@ -30,6 +30,8 @@ The monogram is a different thing and always keeps its dot. See `DESIGN.md` sect
 
 Implementation repositories are named `hikma-<exam>`, never the bare exam name, and the same prefix applies to package names, dataset filenames, and subdomains. The reasoning is in `README.md` under Contributing. Do not simplify it back.
 
+**A `hikma-<exam>` name never takes the diacritic, in any form.** Write `hikma-jlpt` as the identifier and `Hikma JLPT` in prose, page titles, and `og:title`. Never `Ḥikma JLPT`. This name is made to be read out of context, in a list of repositories, in a package name, or in a URL bar, so it has one spelling only. Ḥikma is for the project when it stands on its own.
+
 ## Commits and pull requests
 
 **Never add AI attribution.** No `Co-Authored-By` trailer for Claude or any other AI tool, and no "Generated with" footer, in commit messages, pull request bodies, issue comments, or release notes. This holds however much of the change an agent wrote.
