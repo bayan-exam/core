@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+
+# Environment
+.env
+.env*
+!.env.example
+
+# Logs
+*.log
+
+# Claude Code: track settings.json (project hooks), ignore local overrides
+.claude/settings.local.json
