@@ -71,7 +71,9 @@ This system applies the rule to itself. The level badge hues in section 8 come f
 
 The files ship with the reference implementation, not with this repository. `core` carries the specification of the mark, which is what follows, so that a redrawn or re-exported version can be checked against it.
 
-The mark is **Ḥ**: the Latin letter H carrying a dot below it. That is the standard romanization of the Arabic **ح** (*ḥāʾ*), the first letter of حكمة, "wisdom". The dot is not decoration and it is not optional. Remove it and the letter is a plain H and the name is spelled wrong. The idea: **a claim above, and the evidence that supports it below.**
+The mark is **Ḥ**: the Latin letter H carrying a dot below it. That is the standard romanization of the Arabic **ح** (*ḥāʾ*), the first letter of حكمة, "wisdom". In the mark the dot is not decoration and it is not optional. Draw the mark without it and what is left is a plain H, which is a different letter and not this mark. The idea: **a claim above, and the evidence that supports it below.**
+
+The written name follows a separate rule. **Ḥikma** is the default spelling and plain **Hikma** is also correct, and neither spelling carries the dot into a URL, a domain, or a file name. See `AGENTS.md` under Naming. The mark keeps its dot in every size and every context.
 
 The Arabic ح carries no dot of its own. A dot below it makes ج (*jīm*) and a dot above it makes خ (*khāʾ*). The dot belongs to the transliteration alone, so it appears on the Latin Ḥ and never on the Arabic letter.
 

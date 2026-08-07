@@ -22,6 +22,12 @@
 
 ## Naming
 
+**The project name is Ḥikma, with a dot below the H.** Plain **Hikma** is also correct. Either spelling is fine in prose, so use plain `Hikma` when the diacritic is hard to type or would not survive the text around it, and never change one spelling into the other in text that someone else wrote.
+
+**Never use the diacritic in a name that a machine reads.** URLs, domains, repository names, directory and file names, package names, dataset filenames, and identifiers are always plain ASCII `hikma`. Ḥ is not an ASCII character, so a URL escapes it, a domain encodes it, and different filesystems store it in more than one way. One name then becomes several. If the dot cannot be used, drop it. Never replace it with a dot above the letter or with a different letter.
+
+The monogram is a different thing and always keeps its dot. See `DESIGN.md` section 4.
+
 Implementation repositories are named `hikma-<exam>`, never the bare exam name, and the same prefix applies to package names, dataset filenames, and subdomains. The reasoning is in `README.md` under Contributing. Do not simplify it back.
 
 ## Commits and pull requests
