@@ -26,11 +26,11 @@
 
 ## 1. Reference only
 
-Nothing in this document binds an implementation. It exists because most of the design decisions a question bank needs are the same across exams, and making them again in every repository wastes effort and produces four interfaces that agree on nothing. Three ways to use it, all fine:
+Nothing in this document binds an implementation. It exists because most of the design decisions a question bank needs are the same across exams, and making them again in every repository wastes effort and produces multiple interfaces that disagree with each other. Three ways to use it, all fine:
 
 - **Adopt it.** Build the tokens in section 11 from the values here and use the component conventions as written. This is the path the reference implementation takes.
-- **Fork it.** Keep the structure, meaning the token names, the shape of the ramps, the accessibility floor, and the rule that colour never carries meaning alone, and replace the hues and typefaces with your own.
-- **Replace it.** Design something unrelated. You owe this document nothing.
+- **Fork it.** Keep the structure, including the token names, the shape of the ramps, the accessibility floor, and the rule that colour never carries meaning alone, and replace the hues and typefaces with your own.
+- **Replace it.** Design something new from scratch.
 
 Section 2 does not change across those three, because it is not a design preference. It is the visual half of the naming rule in [README.md](README.md#contributing), and it keeps the project clear of a claim it has never made.
 
