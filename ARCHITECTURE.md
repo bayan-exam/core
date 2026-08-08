@@ -10,8 +10,22 @@
 - [The invariant](#the-invariant)
 - [Build graph](#build-graph)
 - [Nodes](#nodes)
+  - [[A] Seed corpus](#a-seed-corpus)
+  - [[B] Constraint files](#b-constraint-files)
+  - [[C] Prompt templates](#c-prompt-templates)
+  - [[D] Generator](#d-generator)
+  - [[E] Deterministic validator](#e-deterministic-validator)
+  - [[F] Auditor](#f-auditor)
+  - [[G] Student gauntlet](#g-student-gauntlet)
+  - [[H] Quality judge](#h-quality-judge)
+  - [[I] Repair](#i-repair)
+  - [[J] Store](#j-store)
+  - [[K] Human review](#k-human-review)
+  - [[L] Export](#l-export)
 - [Schema](#schema)
 - [Model configuration](#model-configuration)
+  - [Provider and portability](#provider-and-portability)
+  - [Notes on the current generation](#notes-on-the-current-generation)
 - [The provenance record](#the-provenance-record)
 - [Adapting to an exam](#adapting-to-an-exam)
 - [Limits](#limits)
@@ -47,37 +61,35 @@ Studying the *format* of an exam does not break the invariant. A format, such as
 
 ## Build graph
 
-**This is a build order, not a runtime path.** It says what must exist before what, and in that direction it has no cycles. The route one question takes at runtime does have a cycle, because a failed question can go back for repair.
+**The letter order [A] to [L] is the build order:** what must exist before what, and in that direction it has no cycles. The diagram below draws that order as the happy path, one pass through every gate. It does not draw what happens after a gate fails, because a single question's actual route branches too many ways to stay readable as arrows. The table underneath lists that routing instead, including the one cycle a question can take at runtime, back to [D] for repair.
 
 ```
 [A] Seed corpus ──────┐
-                      ├──► [C] Prompt templates ──► [D] Generator
-[B] Constraint files ─┘                                  │
-                                                         ▼
-                                            [E] Deterministic validator     zero cost
-                                                         │
-                                                    pass │ fail ──────────┐
-                                                         ▼                │
-                                                 [F] Auditor              │
-                                                         │                │
-                                                    pass │ flag ──► quarantined (terminal)
-                                                         ▼                │
-                                            [G] Student gauntlet          │
-                                                         │                │
-                                                    pass │ fail ──────────┤
-                                                         ▼                │
-                                             [H] Quality judge            │
-                                                         │                │
-                                                    pass │ fail ──────────┤
-                                                         ▼                ▼
-                                                  [J] Store ◄────── [I] Repair
-                                                         │         (one repair,
-                                                         ▼          then abandoned)
-                                              [K] Human review
-                                                         │
-                                                         ▼
-                                                  [L] Export
+                      ├──► [C] Prompt templates ──► [D] Generator ──► [E] Deterministic validator
+[B] Constraint files ─┘                                                         │
+                                                                                 ▼
+                                                                         [F] Auditor
+                                                                                 │
+                                                                                 ▼
+                                                                  [G] Student gauntlet
+                                                                                 │
+                                                                                 ▼
+                                                                   [H] Quality judge
+                                                                                 │
+                                                                                 ▼
+                                                                         [J] Store ──► [K] Human review ──► [L] Export
 ```
+
+**Every gate returns pass or fail, except [F], which returns pass or flag:**
+
+| Gate | On pass | On fail or flag |
+|------|---------|------------------|
+| [E] Deterministic validator | Continues to [F] | Goes to [I] Repair |
+| [F] Auditor | Continues to [G] | **Flag** goes to a terminal quarantined state; still written to [J] |
+| [G] Student gauntlet | Continues to [H] | Goes to [I] Repair |
+| [H] Quality judge | Written to [J] | Goes to [I] Repair |
+
+**[I] Repair is the one cycle in the runtime route.** It calls [D] again with the failing gate's feedback attached, and the regenerated candidate runs the gate chain again from [E]. The budget is one repair, meaning two attempts in total: a candidate that fails again is abandoned rather than repaired a second time, and abandoned questions are still written to [J].
 
 **The order of the gates is a cost decision, so do not change it without good reason.** [E] is free, so it runs on everything and removes structurally broken output before any paid call. [F] is cheap in most cases and screens the one failure that cannot be repaired, so it runs before any money is spent on a question that may be thrown away. [G] measures difficulty, which is the most common real failure. [H] is the most expensive judgment in the pipeline, so it only sees questions that already passed every cheaper check.
 
@@ -137,9 +149,9 @@ Selection is also the only source of variety left. Current models no longer acce
 
 Code only. No model, no API cost. Runs on every generator output.
 
-Typical checks: the record matches the schema, the option count is correct for the question type, the options all differ from each other, the stated answer is present among the options, the target constraint entry actually present in the question, every constraint entry referenced within the target band, and, for question types that use one, a referenced stimulus that exists in the store, carries the same band, and is not empty.
+Typical checks: the record matches the schema, the option count is correct for the question type, the options all differ from each other, the stated answer is present among the options, the target constraint entry is actually present in the question, every constraint entry referenced falls within the target band, and, for question types that use one, a referenced stimulus that exists in the store, carries the same band, and is not empty.
 
-The last check is the important one, and it is a simple test of set membership. It catches the most common generator error, material from outside the target band, at no cost, before any paid model runs.
+The band membership check is the important one, and it is a simple test of set membership. It catches the most common generator error, material from outside the target band, at no cost, before any paid model runs.
 
 A failure here goes to [I].
 
@@ -340,7 +352,7 @@ Reference-data generation writes a manifest of its own, and it is a different re
 
 Assemble the per-question record once, when the question is written to [J], from the verdicts the gates carried with it. Building it up piece by piece means the record is invalid for most of its life, which defeats the point of validating it.
 
-If someone raises a provenance concern, **quarantine the affected material where it is, do not delete it.** The manifests are the evidence that an entry was derived independently, and deleting them destroys that evidence. Once a dispute can reasonably be expected, keeping the records may also become a legal duty, and deleting them at that point looks like something worse than carelessness.
+If someone raises a provenance concern, **quarantine the affected material where it is, do not delete it.** The manifests are the evidence that an entry was derived independently, and deleting them destroys that evidence. Once a dispute can reasonably be expected, keeping the records may also become a legal duty, and deleting them at that point can be treated as destroying evidence, not as carelessness.
 
 ## Adapting to an exam
 
@@ -352,7 +364,7 @@ Five inputs, listed in build order. Nothing else changes.
 4. **Personas.** One per band, describing a candidate's knowledge ceiling concretely enough that the persona fails what it should fail. Allow abstention.
 5. **Seed corpus.** A handful of reviewed examples per question type and band.
 
-One property decides how hard the adaptation is: how cleanly the inventory can be listed, and how clearly band membership is defined. Language exams and certification exams both score well, the first because the inventory is naturally a list, the second because the examining body publishes a breakdown of scope. Reasoning-heavy exams are the hardest, because their inventory is a set of patterns rather than separate items. The harder the inventory is to list, the weaker the deterministic check at [E] becomes, and the more weight falls on [G].
+One property decides how hard the adaptation is: how cleanly the inventory can be listed, and how clearly band membership is defined. Language exams and certification exams both fit well, the first because the inventory is naturally a list, the second because the examining body publishes a breakdown of scope. Reasoning-heavy exams are the hardest, because their inventory is a set of patterns rather than separate items. The harder the inventory is to list, the weaker the deterministic check at [E] becomes, and the more weight falls on [G].
 
 ## Limits
 

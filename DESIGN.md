@@ -1,6 +1,6 @@
 # Hikma design system
 
-ヒクマ · حكمة · Hikma · *an open, auditable question bank for standardized exams.*
+ヒクマ · حكمة · Hikma
 
 **This is the reference design system for Hikma implementations: a complete set of colour, type, spacing, and component conventions, published so that an implementation has a working default instead of a blank page.** The single most important point: it is a reference, not a requirement. Any implementation may replace it with a visual identity of its own, with one firm limit: that identity must not imitate the examining body's. Below: how to use or replace this system, that limit in full, then the principles, marks, colour, type, spacing, components, accessibility, licensing, and the token contract.
 
@@ -13,6 +13,10 @@
 - [3. Principles](#3-principles)
 - [4. Brand marks](#4-brand-marks)
 - [5. Colour](#5-colour)
+  - [Ink (cool neutral: plum-charcoal to grey-green)](#ink-cool-neutral-plum-charcoal-to-grey-green)
+  - [Rose (the single warm hue, accent and brand fill)](#rose-the-single-warm-hue-accent-and-brand-fill)
+  - [Semantic hues (tuned into the palette, not stock)](#semantic-hues-tuned-into-the-palette-not-stock)
+  - [Theme roles](#theme-roles)
 - [6. Type](#6-type)
 - [7. Space, radius, motion](#7-space-radius-motion)
 - [8. Components](#8-components)
@@ -52,7 +56,7 @@ And do:
 - **Keep the non-affiliation disclaimer on every public surface**, in the interface itself and not only in a README. Section 10 gives the wording.
 - **Attribute the marks you name.** Exam names are trademarks of their owners, they appear in an implementation only to describe which exam it targets, and the README says so.
 
-This system applies the rule to itself. The level badge hues in section 8 come from Hikma's own ramp, and they were chosen so that the order can be seen, cool at the easiest band and warm at the hardest, not to match any official colour scheme. The mark in section 4 is a letter from the project's own name. Neither borrows from any exam body, and anything that replaces them should be able to say the same.
+This system applies the rule to itself. The level badge hues in section 8 come from Hikma's own palette, chosen under this rule so that the order can be seen, cool at the easiest band and warm at the hardest, not to match any official colour scheme. The mark in section 4 is a letter from the project's own name. Neither borrows from any exam body, and anything that replaces them should be able to say the same.
 
 ## 3. Principles
 
@@ -77,7 +81,7 @@ The written name follows a separate rule. **Ḥikma** is the default spelling an
 
 The Arabic ح carries no dot of its own. A dot below it makes ج (*jīm*) and a dot above it makes خ (*khāʾ*). The dot belongs to the transliteration alone, so it appears on the Latin Ḥ and never on the Arabic letter.
 
-Sizes: the monogram holds down to 16px and the wordmark down to 96px wide. Below 20px the inner border drops and the H and its dot carry the mark alone. Keep the dot in rose-350, never rosewood, because rosewood on plum-charcoal is 1.52:1 and disappears at that size (see section 9). Clear space on every side is the height of the dot.
+Sizes: the monogram holds down to 16px and the wordmark down to 96px wide. Below 20px the inner border drops and the H and its dot carry the mark alone. Keep the dot in rose-350, never rosewood, because rosewood on ink-700 is 1.52:1 and disappears at that size (see section 9). Clear space on every side is the height of the dot.
 
 Never: drop the dot, move it above the letter, put a dot on the Arabic ح, skew or rotate the mark, re-weight the strokes, round the counter of the H into a circle, set the wordmark in another typeface, or place the mark on a colour outside the palette.
 
@@ -103,9 +107,13 @@ Four locked founding hues, expanded into named ramps. Locked steps marked ◆, n
 | | | | 050 | `#F4F6F5` |
 | | | | 000 | `#FBFCFC` |
 
+"Plum-charcoal" and "grey-green" above name the ramp's two ends in prose. Everywhere else in this document a step is named by its ramp position, `ink-NNN`, not by a nickname.
+
 ### Rose (the single warm hue, accent and brand fill)
 
 `#3E3131` 900 · `#52403F` 800 · `#5F4A4A` 700 · ◆`#715A5A` 600 · `#866D6D` 500 · `#9C8282` 400 · `#B39B9B` 350 · `#C9B6B6` 300 · `#DECFCF` 200 · `#EFE6E6` 100
+
+`#715A5A` rose-600 is called **rosewood** elsewhere in this document.
 
 > **rose-600 is a fill, not a text colour.** On dark surfaces use rose-350 `#B39B9B`; on light surfaces use rose-800 `#52403F`.
 
@@ -120,7 +128,7 @@ Four locked founding hues, expanded into named ramps. Locked steps marked ◆, n
 
 ### Theme roles
 
-Light is **not** an inversion of dark. Surfaces climb the ink ramp; text drops to plum, not black.
+Light is **not** an inversion of dark. Surfaces climb the ink ramp; text drops to a dark ink step, not black.
 
 | Token | Dark | Light |
 |---|---|---|
@@ -137,25 +145,25 @@ Light is **not** an inversion of dark. Surfaces climb the ink ramp; text drops t
 
 ## 6. Type
 
-| Role | Family | Notes |
-|---|---|---|
-| Latin | **Plus Jakarta Sans** | Bundled locally, OFL. Variable, 200 to 800. |
-| Mono | **JetBrains Mono** | IDs, hashes, git SHAs, all provenance values |
-| Arabic | **Amiri** | Naskh. Used for حكمة in running text. The wordmark is Latin, set in Plus Jakarta Sans Bold at -0.5 tracking. |
-| Exam script | per implementation | The reference implementation targets the JLPT and uses **Noto Sans JP** at 400 / 500 / 700. An implementation for another exam substitutes the family its script needs. |
+| Role | Family | Token | Notes |
+|---|---|---|---|
+| Latin | **Plus Jakarta Sans** | `--font-latin` | Bundled locally, OFL. Variable, 200 to 800. |
+| Mono | **JetBrains Mono** | `--font-mono` | IDs, hashes, git SHAs, all provenance values |
+| Arabic | **Amiri** | `--font-arabic` | Naskh. Used for حكمة in running text. The wordmark is Latin, set in Plus Jakarta Sans Bold at -0.5 tracking. |
+| Exam script | per implementation | `--font-exam-script` | The reference implementation targets the JLPT and uses **Noto Sans JP** at 400 / 500 / 700. An implementation for another exam substitutes the family its script needs. |
 
-**Scale** (1.25 major third, whole px): 11 · 12 · 13 · 14 · **16** · 18 · 20 · 25 · 31 · 39 · 49 · 61
+**Scale** (1.25 major third from 16 up, whole px; 11 to 14 are hand-tuned, not ratio steps): 11 · 12 · 13 · 14 · **16** · 18 · 20 · 25 · 31 · 39 · 49 · 61. Token suffix is the literal px value: `--text-size-11` through `--text-size-61`.
 
-**Line height:** `1.15` tight · `1.3` snug · `1.55` normal · **`1.85` CJK** · `2` loose
+**Line height:** `1.15` tight · `1.3` snug · `1.55` normal · **`1.85` CJK** · `2` loose. Tokens: `--leading-tight`, `--leading-snug`, `--leading-normal`, `--leading-cjk`, `--leading-loose`.
 
 **Mixed-script rhythm.** Latin body sets at 1.55. **Any block containing CJK text sets the whole block to 1.85**, and the two line heights never mix inside one paragraph. Match weights, not sizes: Jakarta 700 pairs with Noto 700. Amiri runs one step larger than its Latin neighbour.
 
 ## 7. Space, radius, motion
 
-- **Spacing** (8px baseline): 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96
-- **Radius:** 2 `xs` · 4 `sm` · 6 `md` · 10 `lg` · 999 `full`
-- **Borders:** 1px hair · 1.5px thin · 2px thick
-- **Motion:** 90ms fast · 160ms base · 260ms slow, `cubic-bezier(.2,0,.2,1)`
+- **Spacing** (8px baseline): 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96. Token suffix is the literal px value: `--space-4` through `--space-96`, as in the example in section 11.
+- **Radius:** 2 `xs` · 4 `sm` · 6 `md` · 10 `lg` · 999 `full`. Tokens: `--radius-xs`, `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-full`.
+- **Borders:** 1px hair · 1.5px thin · 2px thick. Tokens: `--border-width-hair`, `--border-width-thin`, `--border-width-thick`.
+- **Motion:** 90ms fast · 160ms base · 260ms slow, `cubic-bezier(.2,0,.2,1)`. Tokens: `--duration-fast`, `--duration-base`, `--duration-slow`.
 
 ## 8. Components
 
@@ -177,16 +185,16 @@ All body text meets **WCAG 2.1 AA (4.5:1)**; UI boundaries meet **3:1**.
 
 | Foreground | Background | Ratio |
 |---|---|---|
-| `#D3DAD9` grey-green | `#37353E` dark card | 8.50:1 |
+| `#D3DAD9` ink-200 | `#37353E` dark card | 8.50:1 |
 | `#F4F6F5` ink-050 | `#37353E` dark card | 11.11:1 |
 | `#B39B9B` rose-350 | `#37353E` dark card | 4.64:1 |
-| `#37353E` plum | `#FFFFFF` light card | 12.06:1 |
+| `#37353E` ink-850 | `#FFFFFF` light card | 12.06:1 |
 | `#52403F` accent text | `#FFFFFF` light card | 9.70:1 |
 | `#63636D` faint | `#E7EBEA` light well | 4.94:1 |
 | `#8B9291` border | `#FFFFFF` light card | 3.17:1 |
 | `#FFFFFF` white | `#715A5A` accent fill | 6.34:1 |
 
-**Known failure, do not use:** `#715A5A` rosewood on `#44444E` slate is **1.52:1**. Rosewood is never text on an ink surface; use `--accent-text` (rose-350 dark, rose-800 light).
+**Known failure, do not use:** `#715A5A` rosewood on `#44444E` ink-700 is **1.52:1**. Rosewood is never text on an ink surface; use `--accent-text` (rose-350 dark, rose-800 light).
 
 ## 10. Licensing and attribution
 
@@ -194,7 +202,7 @@ All body text meets **WCAG 2.1 AA (4.5:1)**; UI boundaries meet **3:1**.
 - **Each repository sets its own.** `core` is MIT and covers this document. An implementation chooses its own licence for its code and its dataset, and the MIT grant here does not extend to it. The reference implementation publishes its dataset under CC BY 4.0 and its pipeline code under MIT, which is a choice for that repository to state in its own words, not a rule this document imposes.
 - **Never label something "open source" that is not.** If a badge says MIT, Apache, or "open source", the licence file has to back it. The status word for source-available code is **"Source-available."**
 - **Fonts:** Plus Jakarta Sans, Noto Sans JP, Amiri, JetBrains Mono, all OFL. Ship the licence text alongside any font you bundle.
-- **Non-affiliation, on every public surface.** The wording is "Not affiliated with, endorsed by, or sponsored by [examining body]", naming the body the implementation targets. It belongs in the interface, not only in a README, and it must not be styled until it disappears.
+- **Non-affiliation, on every public surface.** The wording is "Not affiliated with, endorsed by, or sponsored by [examining body]", naming the body the implementation targets. It belongs in the interface, not only in a README, and it must not be styled so faintly that readers miss it.
 - **Exam names are trademarks of their owners** and appear in an implementation only to describe which exam it targets. See section 2 for what that permits and what it does not.
 
 ## 11. Using the tokens

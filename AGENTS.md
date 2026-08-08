@@ -16,7 +16,7 @@
 - **`ARCHITECTURE.md` is the source of truth.** `README.md` summarises it and must never contradict it. A change to node behaviour, the schema, model configuration, or the provenance record lands in `ARCHITECTURE.md` first, and the README follows in the same commit.
 - **Keep the specification exam-neutral and provider-neutral.** Named exams belong in examples. Named models, providers, and API details belong in the two subsections under Model configuration, which exist so that perishable facts rot in one visible place. Do not scatter them back through the nodes.
 - **Write every reader-facing document in plain English.** Most of the audience, learners and developers alike, reads English as a second language. Keep sentences short and to one idea, put the subject and verb near the front, and prefer the common word to the precise-but-rare one. Cut idiom, metaphor, and phrasal verbs where a plain verb exists. This constrains the prose, never the content: the specification stays exact, a defined term keeps its name, and no rule is softened to make it read more easily.
-- **Keep both tables of contents in sync** with the headings above them.
+- **Keep all three tables of contents in sync** with the headings above them.
 - **Never hard-wrap prose.** One line per paragraph, one line per bullet, and let the renderer wrap.
 - **Never use the em-dash character.** Use a comma, a colon, parentheses, or a separate sentence.
 

@@ -9,10 +9,13 @@
 - [The problem](#the-problem)
 - [Who it is for](#who-it-is-for)
 - [Two ideas](#two-ideas)
+  - [Provenance is a record, not a promise](#provenance-is-a-record-not-a-promise)
+  - [Difficulty is a measurement, not a label](#difficulty-is-a-measurement-not-a-label)
 - [The pipeline](#the-pipeline)
 - [Adapting it to an exam](#adapting-it-to-an-exam)
 - [Repositories](#repositories)
 - [Contributing](#contributing)
+- [Releases](#releases)
 - [Licensing](#licensing)
 - [Trademarks](#trademarks)
 
@@ -62,28 +65,28 @@ This turns difficulty calibration into something you can show someone. It also p
 
 ## The pipeline
 
-Twelve nodes, labelled [A] to [L]. Reference data is built first, then generation, then a chain of gates, then storage, review, and export.
+Twelve nodes, labelled [A] to [L]. Reference data is built first, then generation, then a chain of gates, then storage, review, and export. This diagram shows the happy path, one pass through every gate; what happens after a gate fails is described below it, not drawn, because a single question's actual route branches too many ways to stay readable as arrows.
 
 ```
 [A] Seed corpus ──┐
                   ├──► [C] Prompt templates ──► [D] Generator ──► [E] Deterministic validator
-[B] Constraints ──┘                                  ▲                        │
-                                                     │                        ▼
-                                              [I] Repair ◄──────────── [F] Auditor
-                                                     ▲                        │
-                                                     │                        ▼
-                                                     └───────────── [G] Student gauntlet
-                                                     ▲                        │
-                                                     │                        ▼
-                                                     └───────────── [H] Quality judge
-                                                                              │
-                                                                              ▼
-                                              [J] Store ──► [K] Human review ──► [L] Export
+[B] Constraint files ──┘                                                   │
+                                                                            ▼
+                                                                    [F] Auditor
+                                                                            │
+                                                                            ▼
+                                                             [G] Student gauntlet
+                                                                            │
+                                                                            ▼
+                                                              [H] Quality judge
+                                                                            │
+                                                                            ▼
+                                                                    [J] Store ──► [K] Human review ──► [L] Export
 ```
 
 The order of the gates is deliberate. [E] costs nothing to run, so it runs on everything and rejects structurally broken output before any paid call. [F] is cheap in most cases and screens provenance, the one failure that cannot be repaired. [G] measures difficulty, the failure most likely to occur. [H] is the most expensive judgment, so it runs last, only on questions that already survived the cheaper checks.
 
-A failure at [E], [G], or [H] goes to [I], which generates the question again with the gate's feedback attached. The budget is one repair. A second failure ends the question. A failure at [F] is never repaired, because a suspected provenance problem cannot be reworded away. Those questions are quarantined and kept as evidence.
+A failure at [E], [G], or [H] goes to [I] Repair, which calls [D] again with the gate's feedback attached, and the regenerated candidate runs the gate chain again from [E]. This is the one cycle in an otherwise linear pipeline. The budget is one repair. A second failure ends the question. A failure at [F] is never repaired, because a suspected provenance problem cannot be reworded away. Those questions are quarantined and kept as evidence. Both quarantined and abandoned questions are still written to [J], so the audit trail stays complete.
 
 Node behaviour, the schema every node speaks, model configuration, and the provenance record are specified in [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -115,7 +118,7 @@ Some worked examples of what those five inputs look like:
 | TOEIC | Score bands | Business vocabulary, register, functional patterns |
 | TOPIK | 1 to 6 | Vocabulary, grammar patterns |
 
-The fit depends on one property: how cleanly you can list the constraint inventory and tag each entry with a band. Language exams score well here, because their inventory is naturally a list. Certification exams score well, because the examining body publishes its scope as a breakdown of services and domains. Reasoning-heavy exams are the hardest case, because their inventory is a set of patterns rather than items. That weakens the deterministic check at [E] and puts more weight on the gauntlet at [G].
+The fit depends on one property: how cleanly you can list the constraint inventory and tag each entry with a band. Language exams fit well here, because their inventory is naturally a list. Certification exams fit well too, because the examining body publishes its scope as a breakdown of services and domains. Reasoning-heavy exams are the hardest case, because their inventory is a set of patterns rather than items. That weakens the deterministic check at [E] and puts more weight on the gauntlet at [G].
 
 ## Repositories
 
@@ -136,6 +139,8 @@ The prefix is the point. A repository called `jlpt` reads as though it were the 
 Apply the same rule to anything a user sees that inherits the repository name: package names, module paths, dataset filenames, and deployed subdomains. Keep the disclaimer in [Trademarks](#trademarks) in every implementation repository's README as well, because that is where people arrive first.
 
 **[DESIGN.md](DESIGN.md) is a reference, not a requirement.** It is a complete design system, published so that an implementation starts from a working default rather than a blank page, and an implementation may adopt it, fork it, or design something unrelated. One rule survives a redesign: an implementation must not imitate the visual identity of the exam it targets, meaning its logo, palette, logotype, or the layout of its official surfaces. That is the visual half of the naming rule above, and it exists for the same reason. Using an exam name descriptively says which exam a pipeline targets. Looking like the examining body's own product implies an affiliation this project does not have and does not claim. [Section 2 of DESIGN.md](DESIGN.md#2-do-not-adopt-the-examining-bodys-visual-identity) states it in full.
+
+## Releases
 
 **A dataset published before human review ships on a prerelease channel**, versioned with a prerelease marker and labelled as such. There are three channels, and each makes a stronger claim than the one below it: `alpha`, where the questions cleared every automated gate; `beta`, where the same questions ship once those gates have measured error rates; and `stable`, which contains only questions a human accepted one by one. Provenance does not depend on review, so all three make the same claim about origin. What the prerelease channels withhold is the claim about quality. The rule, including the exit criterion an uncalibrated channel has to state up front so that it cannot become permanent, is in [ARCHITECTURE.md](ARCHITECTURE.md), under node [L].
 
