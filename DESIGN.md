@@ -200,7 +200,7 @@ All body text meets **WCAG 2.1 AA (4.5:1)**; UI boundaries meet **3:1**.
 
 - **Two licences, two badges.** A dataset and the code that generated it are governed separately, and the interface renders them as two distinct `LicenseBadge` components. Never blend them into one mark, and never let a badge for one imply anything about the other.
 - **Each repository sets its own.** `core` is MIT and covers this document. An implementation chooses its own licence for its code and its dataset, and the MIT grant here does not extend to it. The reference implementation publishes its dataset under CC BY 4.0 and its pipeline code under MIT, which is a choice for that repository to state in its own words, not a rule this document imposes.
-- **Never label something "open source" that is not.** If a badge says MIT, Apache, or "open source", the licence file has to back it. The status word for source-available code is **"Source-available."**
+- **Never label something "open source" that is not.** If a badge says MIT, Apache, or "open source", the licence file has to back it exactly, and an implementation under a different kind of licence states that licence's own name instead.
 - **Fonts:** Plus Jakarta Sans, Noto Sans JP, Amiri, JetBrains Mono, all OFL. Ship the licence text alongside any font you bundle.
 - **Non-affiliation, on every public surface.** The wording is "Not affiliated with, endorsed by, or sponsored by [examining body]", naming the body the implementation targets. It belongs in the interface, not only in a README, and it must not be styled so faintly that readers miss it.
 - **Exam names are trademarks of their owners** and appear in an implementation only to describe which exam it targets. See section 2 for what that permits and what it does not.
