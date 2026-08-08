@@ -13,6 +13,7 @@
   - [Difficulty is a measurement, not a label](#difficulty-is-a-measurement-not-a-label)
 - [The pipeline](#the-pipeline)
 - [Adapting it to an exam](#adapting-it-to-an-exam)
+- [Roadmap](#roadmap)
 - [Repositories](#repositories)
 - [Contributing](#contributing)
 - [Releases](#releases)
@@ -110,15 +111,23 @@ Some worked examples of what those five inputs look like:
 
 | Exam | Bands | Constraint inventory |
 |------|-------|----------------------|
-| Cloud and IT certifications | Associate, professional, expert | Services, concepts, operational scenarios |
-| DELF, Goethe-Zertifikat | A1 to C2 | CEFR-tagged vocabulary and structures |
-| GMAT, GRE, SAT | Scaled score ranges | Concepts, formulas, reasoning patterns |
-| HSK | 1 to 9 | Characters, vocabulary, grammar patterns |
 | JLPT | N5 to N1 | Vocabulary entries, grammar patterns |
 | TOEIC | Score bands | Business vocabulary, register, functional patterns |
+| GMAT, GRE, SAT | Scaled score ranges | Concepts, formulas, reasoning patterns |
+| HSK | 1 to 9 | Characters, vocabulary, grammar patterns |
 | TOPIK | 1 to 6 | Vocabulary, grammar patterns |
+| IT Passport, FE, SG (IPA, Japan) | Level 1 (IT Passport) to level 2 (FE, SG) | Technology, management, and strategy knowledge areas |
+| Cloud and IT certifications | Associate, professional, expert | Services, concepts, operational scenarios |
 
 The fit depends on one property: how cleanly you can list the constraint inventory and tag each entry with a band. Language exams fit well here, because their inventory is naturally a list. Certification exams fit well too, because the examining body publishes its scope as a breakdown of services and domains. Reasoning-heavy exams are the hardest case, because their inventory is a set of patterns rather than items. That weakens the deterministic check at [E] and puts more weight on the gauntlet at [G].
+
+## Roadmap
+
+Hikma starts narrow on purpose. The first exams it targets are majority multiple choice, and every question in that first phase is text only: a stem, an optional short passage, and text options. A text-only multiple choice question is the easiest format to check automatically, so this scope keeps the validator at [E] and the gauntlet at [G] as strong as they can be.
+
+Three phases follow, and each widens the stimulus without changing the multiple choice format. Image-based questions add a diagram, chart, or code listing as the stimulus. Audio-based questions add a listening passage. Multi-modal questions combine more than one stimulus type, such as an audio passage paired with an image, in a single question. All three still ask the examinee to pick from a fixed set of options, so the same gates apply.
+
+Free-response and constructed-answer question types, where there is no fixed option to check the answer against, come last. That phase needs the gates themselves to change before it can start, since [E] and [G] as specified assume a question has a checkable correct option.
 
 ## Repositories
 
@@ -154,6 +163,6 @@ If you do build on it, attribution is welcome but not required beyond what the M
 
 ## Trademarks
 
-Exam names used in this document, including JLPT, TOEIC, HSK, TOPIK, SAT, GRE, and GMAT, are trademarks of their respective owners. They appear here only to describe the kinds of exams this architecture applies to. This project is independent and is not affiliated with, endorsed by, or sponsored by any examining body.
+Exam names used in this document, including JLPT, TOEIC, HSK, TOPIK, SAT, GRE, GMAT, IT Passport, FE, and SG, are trademarks of their respective owners. They appear here only to describe the kinds of exams this architecture applies to. This project is independent and is not affiliated with, endorsed by, or sponsored by any examining body.
 
 No logo, wordmark, palette, or official document design belonging to an examining body appears in this repository or in any implementation of it, and none may be added. Implementations carry this disclaimer on every public surface, in the interface rather than only in a README.
