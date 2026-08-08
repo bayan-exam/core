@@ -148,11 +148,13 @@ Selection is also the only source of variety left. Current models no longer acce
 
 ### [E] Deterministic validator
 
-Code only. No model, no API cost. Runs on every generator output.
+Code only. No model, no API cost, with one exception noted below. Runs on every generator output.
 
 Typical checks: the record matches the schema, the option count is correct for the question type, the options all differ from each other, the stated answer is present among the options, the target constraint entry is actually present in the question, every constraint entry referenced falls within the target band, and, for question types that use one, a referenced stimulus that exists in the store, carries the same band, and is not empty.
 
 The band membership check is the important one, and it is a simple test of set membership. It catches the most common generator error, material from outside the target band, at no cost, before any paid model runs.
+
+**Add a near-duplicate check against the store: reject a candidate whose stem and options restate a question already stored at the same band and question type.** [D] has no real source of variety beyond what goes into the prompt, so a lightly varied prompt regularly produces a restatement of a question already generated, and nothing else in the pipeline compares a candidate against anything but itself. Score it with plain token overlap first, exact or near-exact match over the stem, which keeps the check code only and free like the rest of this node. Reach for embedding similarity only if overlap alone lets reworded duplicates through, and if you add it, log and price that call like any other paid stage, because the node stops being free the moment it fires. This check reads the store the same way the stimulus check above already does, and it says nothing about copyright: it compares your own output to itself, never to outside material, so it is a diversity check on the corpus, and it stays a separate concern from the audit at [F].
 
 A failure here goes to [I].
 
@@ -339,6 +341,8 @@ Support for using your own key against other compatible APIs, including open-wei
 
 Two things follow once that support arrives. The provider is part of the binding, so the manifest records the endpoint next to the model, and questions generated against different providers cannot be compared without saying so. And a change of provider is a change of persona binding: the gauntlet needs a new baseline before its gradients mean anything, exactly as after a model upgrade.
 
+**Probe a model for memorization before you bind it to [D] or [F], never after.** The invariant governs what you feed the pipeline; it says nothing about what the model already knows. A model trained on the target exam's official material can reproduce a memorized passage from a clean prompt with no copyrighted material anywhere in the input chain, and the per-call manifest would show nothing wrong, since it only records what you sent, not what the model already carried. Test for this before the binding runs a single generation call: prompt the candidate model for passages from the target exam's known material without supplying that material yourself, and check what comes back against the source directly. A model that reproduces it at any length has the exam baked into its weights, and binding it to [D] or [F] is a risk no manifest can document away after the fact. This is due diligence on the model, done once per model version and offline, not a pipeline gate run per question. It sits beside the cross-vendor audit described at [F] and [Limits](#limits): an outside check that informs which binding you trust, and that never joins the per-question evidence chain. Keep the report: see [The provenance record](#the-provenance-record).
+
 ### Notes on the current generation
 
 These are the concrete facts the principles above were written against, as of August 2026. They will go out of date. The principles should not.
@@ -364,6 +368,8 @@ Two artifacts, at two scopes.
 The per-question record is what lets anyone audit the dataset independently. A reader can trace any single question back to the exact call that produced it, without access to the pipeline.
 
 Reference-data generation writes a manifest of its own, and it is a different record from the generation-batch manifest: a different node, different fields, and only the commit SHA in common. Give it its own schema and its own name rather than widening one shape to cover both. Otherwise the fields each one requires become optional in the other, and neither can be validated.
+
+A model's memorization probe (see [Provider and portability](#provider-and-portability)) writes a third kind of record, kept for the same reason. It is scoped to a model version, not to a run or a question, so it belongs in neither artifact above. File the report where the manifests live, named by provider, model, and the date the probe ran, and record which canaries were tried and what came back, not only a pass or fail summary, so a later reader can judge the probe's own thoroughness rather than take its verdict on faith. Re-run it whenever a binding moves to a new model version, the same trigger that already forces a new gauntlet baseline at [G].
 
 Assemble the per-question record once, when the question is written to [J], from the verdicts the gates carried with it. Building it up piece by piece means the record is invalid for most of its life, which defeats the point of validating it.
 
@@ -397,7 +403,7 @@ Stating these plainly is part of the design.
 
 **The auditor is a screen for uncertainty, not a detector.** No model can reliably audit its own training data, and there is no ground truth to score it against. It raises uncertainty and records a reason. That reason is the model's own account of its verdict, not a transcript of how the verdict was reached, and current models do not expose the transcript at all. Treat the output as documented diligence, never as proof that a question is clean. Any material that claims otherwise claims too much.
 
-**Using different models across the gates gives only partial independence.** Models from the same provider, and especially from the same family, share training data and therefore share blind spots. Spanning tiers reduces shared error but does not remove it. The gauntlet is the least correlated gate, because it measures behaviour rather than giving a judgment, and shared blind spots are harder to hide in a measurement. The remedy available is the offline audit across vendors described at [F], and it covers a sample from time to time rather than every question.
+**Using different models across the gates gives only partial independence.** Models from the same provider, and especially from the same family, share training data and therefore share blind spots. Spanning tiers reduces shared error but does not remove it. The gauntlet is the least correlated gate, because it measures behaviour rather than giving a judgment, and shared blind spots are harder to hide in a measurement. The remedy available is the offline audit across vendors described at [F], and it covers a sample from time to time rather than every question. A memorization probe run before a model is bound (see [Provider and portability](#provider-and-portability)) is the same kind of remedy, aimed at the model itself rather than at its judgments.
 
 **The gauntlet measures model behaviour, not human behaviour.** It is a strong proxy for difficulty and a real measurement of something. It is not a substitute for testing questions with real candidates.
 
