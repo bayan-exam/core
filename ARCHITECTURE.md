@@ -28,6 +28,7 @@
   - [Notes on the current generation](#notes-on-the-current-generation)
 - [The provenance record](#the-provenance-record)
 - [Adapting to an exam](#adapting-to-an-exam)
+- [Roadmap](#roadmap)
 - [Limits](#limits)
 
 ## Terminology
@@ -365,6 +366,14 @@ Five inputs, listed in build order. Nothing else changes.
 5. **Seed corpus.** A handful of reviewed examples per question type and band.
 
 One property decides how hard the adaptation is: how cleanly the inventory can be listed, and how clearly band membership is defined. Language exams and certification exams both fit well, the first because the inventory is naturally a list, the second because the examining body publishes a breakdown of scope. Reasoning-heavy exams are the hardest, because their inventory is a set of patterns rather than separate items. The harder the inventory is to list, the weaker the deterministic check at [E] becomes, and the more weight falls on [G].
+
+## Roadmap
+
+Hikma's first target is exams where the majority of question types are multiple choice, and the first question type built for any exam is text only: a stem, an optional short passage, and text options. Reaching that scope needs no stimulus modality beyond plain text, and it is what exercises the deterministic validator at [E] and the gauntlet at [G] at their strongest, since a fixed-option answer is the easiest thing either gate can check.
+
+Three phases widen the stimulus modality without changing the question format. Image-based question types add a diagram, chart, or code listing as the stimulus. Audio-based question types add an audio script or recording as the stimulus. Multi-modal question types reference more than one stimulus in a single question, such as an audio passage paired with an image. All three stay inside the schema already defined at [Schema](#schema), since a stimulus already carries a modality field, and a question that references a non-text stimulus is still one where the examinee picks from a fixed set of options. [E] and [G] apply to these question types unchanged.
+
+Free-response and constructed-answer question types come last, and they are a different kind of change from the three before them. [E] as specified checks that the stated answer is present among a fixed set of options, and the gradient at [G] scores a persona's answer as chosen from that set rather than composed freely. Neither gate can run unmodified against an answer with no fixed option to check against, so this phase needs the gate contracts themselves to change, not only the constraint inventory or the seed corpus.
 
 ## Limits
 
