@@ -1,6 +1,6 @@
 # Hikma design system
 
-ヒクマ · حكمة · Hikma
+حكمة · Ḥikma · ヒクマ
 
 **This is the reference design system for Hikma implementations: a complete set of colour, type, spacing, and component conventions, published so that an implementation has a working default instead of a blank page.** The single most important point: it is a reference, not a requirement. Any implementation may replace it with a visual identity of its own, with one firm limit: that identity must not imitate the examining body's. Below: how to use or replace this system, that limit in full, then the principles, marks, colour, type, spacing, components, accessibility, licensing, and the token contract.
 
@@ -77,7 +77,7 @@ The files ship with the reference implementation, not with this repository. `cor
 
 The mark is **Ḥ**: the Latin letter H carrying a dot below it. That is the standard romanization of the Arabic **ح** (*ḥāʾ*), the first letter of حكمة, "wisdom". In the mark the dot is not decoration and it is not optional. Draw the mark without it and what is left is a plain H, which is a different letter and not this mark. The idea: **a claim above, and the evidence that supports it below.**
 
-The written name follows a separate rule. **Ḥikma** is the default spelling and plain **Hikma** is also correct, and neither spelling carries the dot into a URL, a domain, or a file name. See `AGENTS.md` under Naming. The mark keeps its dot in every size and every context.
+The written name follows a separate rule. **Ḥikma** is the default spelling and plain **Hikma** is also correct, and neither spelling carries the dot into a URL, a domain, or a file name. See `AGENTS.md` under Naming. ヒクマ, in the header above, is the official Japanese transliteration of the name. The mark keeps its dot in every size and every context.
 
 The Arabic ح carries no dot of its own. A dot below it makes ج (*jīm*) and a dot above it makes خ (*khāʾ*). The dot belongs to the transliteration alone, so it appears on the Latin Ḥ and never on the Arabic letter.
 
