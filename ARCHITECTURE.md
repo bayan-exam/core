@@ -66,19 +66,22 @@ Studying the *format* of an exam does not break the invariant. A format, such as
 
 ```
 [A] Seed corpus ──────┐
-                      ├──► [C] Prompt templates ──► [D] Generator ──► [E] Deterministic validator
-[B] Constraint files ─┘                                                         │
-                                                                                 ▼
-                                                                         [F] Auditor
-                                                                                 │
-                                                                                 ▼
-                                                                  [G] Student gauntlet
-                                                                                 │
-                                                                                 ▼
-                                                                   [H] Quality judge
-                                                                                 │
-                                                                                 ▼
-                                                                         [J] Store ──► [K] Human review ──► [L] Export
+                      ├──► [C] Prompt templates ──► [D] Generator
+[B] Constraint files ─┘                              │
+                                                     ▼
+                                                    [E] Deterministic validator
+                                                     │
+                                                     ▼
+                                                    [F] Auditor
+                                                     │
+                                                     ▼
+                                                    [G] Student gauntlet
+                                                     │
+                                                     ▼
+                                                    [H] Quality judge
+                                                     │
+                                                     ▼
+            [L] Export  ◄──  [K] Human review  ◄──  [J] Store
 ```
 
 **Every gate returns pass or fail, except [F], which returns pass or flag:**
