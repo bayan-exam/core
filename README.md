@@ -99,7 +99,7 @@ The architecture does not depend on any one exam. To set it up for a specific ex
 
 | What you supply | What it is |
 |-----------------|------------|
-| Ability bands | The ordered difficulty levels the exam defines, from lowest to highest |
+| Ability bands | The ordered difficulty levels the exam defines, from lowest to highest. The gauntlet needs at least two, and works best with three or more |
 | Constraint inventory | The units questions are built from, each tagged with a band |
 | Question types | The formats the exam actually uses, with their option counts and structure |
 | Personas | One examinee persona per band, used by the gauntlet |
@@ -120,6 +120,8 @@ Some worked examples of what those five inputs look like:
 | Cloud and IT certifications | Associate, professional, expert | Services, concepts, operational scenarios |
 
 The fit depends on one property: how cleanly you can list the constraint inventory and tag each entry with a band. Language exams fit well here, because their inventory is naturally a list. Certification exams fit well too, because the examining body publishes its scope as a breakdown of services and domains. Reasoning-heavy exams are the hardest case, because their inventory is a set of patterns rather than items. That weakens the deterministic check at [E] and puts more weight on the gauntlet at [G].
+
+A second property matters just as much: whether the exam has more than one band at all. An exam with a single pass or fail cutoff, and no level above or below it, gives the gauntlet nothing to compare against. Hikma does not cover that case yet.
 
 ## Roadmap
 

@@ -359,13 +359,15 @@ If someone raises a provenance concern, **quarantine the affected material where
 
 Five inputs, listed in build order. Nothing else changes.
 
-1. **Bands.** The ordered ability levels, lowest to highest.
+1. **Bands.** The ordered ability levels, lowest to highest. The gauntlet at [G] needs at least two bands to run at all, and at least three to produce a full gradient, because the design leaves the band immediately below the target unscored. An exam that defines only one level, a single pass or fail cutoff with nothing above or below it, gives [G] no scale to measure against. See [Limits](#limits).
 2. **Constraint inventory.** The units questions are built from, each tagged with a band and a secondary category. Generate or author it; never extract it.
 3. **Question types.** The formats the exam actually uses, with option counts and stimulus requirements. Formats are methods and are not copyrightable, so studying real exams to determine them is legitimate. Copying their content is not.
 4. **Personas.** One per band, describing a candidate's knowledge ceiling concretely enough that the persona fails what it should fail. Allow abstention.
 5. **Seed corpus.** A handful of reviewed examples per question type and band.
 
 One property decides how hard the adaptation is: how cleanly the inventory can be listed, and how clearly band membership is defined. Language exams and certification exams both fit well, the first because the inventory is naturally a list, the second because the examining body publishes a breakdown of scope. Reasoning-heavy exams are the hardest, because their inventory is a set of patterns rather than separate items. The harder the inventory is to list, the weaker the deterministic check at [E] becomes, and the more weight falls on [G].
+
+A second property decides whether the exam fits at all: whether it defines more than one ordered band. Every worked example above has three or more. An exam that certifies competence against a single cutoff, such as a one-tier professional license or a pass or fail bar exam, has no levels for the gauntlet to compare against, and the architecture does not cover it yet.
 
 ## Roadmap
 
@@ -384,6 +386,8 @@ Stating these plainly is part of the design.
 **Using different models across the gates gives only partial independence.** Models from the same provider, and especially from the same family, share training data and therefore share blind spots. Spanning tiers reduces shared error but does not remove it. The gauntlet is the least correlated gate, because it measures behaviour rather than giving a judgment, and shared blind spots are harder to hide in a measurement. The remedy available is the offline audit across vendors described at [F], and it covers a sample from time to time rather than every question.
 
 **The gauntlet measures model behaviour, not human behaviour.** It is a strong proxy for difficulty and a real measurement of something. It is not a substitute for testing questions with real candidates.
+
+**The gauntlet needs a real scale, not a label.** Its signal comes entirely from comparing personas across bands, so an exam with only two ordered bands gives it little room to work with, and an exam with one, a single pass or fail cutoff, gives it none. Single-cutoff exams sit outside what this architecture can calibrate against today, whatever else about them fits the rest of the pipeline.
 
 **Difficulty measurements are tied to one generation of models.** The gauntlet records what one set of personas, under one binding, could do on the day it ran. Models improve, and a persona that fails a question this year may pass it next year, which moves every boundary the gauntlet drew. A dataset's difficulty labels are therefore a statement about the binding recorded beside them, not a permanent property of the questions, and labels produced under different bindings cannot be compared until a new baseline is measured.
 
